@@ -18,6 +18,7 @@ public class CheckAddressServiceImpl implements CheckAddressService {
 
     @Override
     public String formatAddress(String address) {
-        return address.replaceAll(",", "").replaceAll("улица", "").replaceAll("\\s+", " ");
+        return address.replace(",", "").replace("улица", "")
+                .replace(" ", "").replaceAll("\\s+", " ").trim();
     }
 }
