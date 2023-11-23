@@ -20,7 +20,7 @@ public class CheckAddressServiceImpl implements CheckAddressService {
     public String formatAddress(String address) {
         return address.replaceAll("[^a-zA-Z0-9а-яА-Я ,./]", "").replace("улица", "")
                 .replace(" ", "").replace(",", " ").replace(".", " ")
-                .replaceAll("(?<=\\D)(?=\\d)", " ")
+                .replaceAll("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)", " ").replaceAll("(?<=\\d)\\s(?=\\d)", "")//вставляет пробел между словом и цифрами и убирает пробел между цифрами
                 .replaceAll("\\s+", " ").trim();
     }
 }
