@@ -18,9 +18,23 @@ public class CheckAddressServiceImpl implements CheckAddressService {
 
     @Override
     public String formatAddress(String address) {
-        return address.replaceAll("[^a-zA-Z0-9а-яА-Я ,./]", "").replace("улица", "")
-                .replace(" ", "").replace(",", " ").replace(".", " ")
-                .replaceAll("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)", " ").replaceAll("(?<=\\d)\\s(?=\\d)", "")//вставляет пробел между словом и цифрами и убирает пробел между цифрами
+        return address.replaceAll("[^a-zA-Z0-9а-яА-Я ,./]", "")//убирает спец символы
+                .replace("улица", "")
+                .replace("ул ", "")
+                .replace("ул.", "")
+                .replace("дом ", "")
+                .replace("д ", "")
+                .replace("д.", "")
+                .replace("г ", "")
+                .replace("г.", "")
+                .replace("гор.", "")
+                .replace("пермь ", "")
+                .replace("пермь,", "")
+                .replace(" ", "")
+                .replace(",", " ")
+                .replace(".", " ")
+                .replaceAll("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)", " ")//вставляет пробел между словом и цифрами
+                .replaceAll("(?<=\\d)\\s(?=\\d)", "")//убирает пробел между цифрами
                 .replaceAll("\\s+", " ").trim();
     }
 }
