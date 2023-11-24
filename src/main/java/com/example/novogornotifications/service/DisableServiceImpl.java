@@ -21,9 +21,6 @@ public class DisableServiceImpl implements DisableService{
     private AddressService addressService;
     @Autowired
     private formatService formatService;
-    @Autowired
-    private CheckAddressService checkAddressService;
-
 
     @Override
     @Transactional
@@ -33,8 +30,6 @@ public class DisableServiceImpl implements DisableService{
         if (member == null) {
             member = memberService.save(chatId);
         }
-
-            addressName = checkAddressService.formatAddress(addressName);
             Optional<Address> addressOptional = addressService.get(addressName);
             Address address;
             if(addressOptional.isEmpty()) {
@@ -61,8 +56,6 @@ public class DisableServiceImpl implements DisableService{
         Member member = memberService.getMember(chatId).orElse(null);
         String result;
         if (member != null) {
-
-            addressName = checkAddressService.formatAddress(addressName);
                 Optional<Address> addressOptional = addressService.get(addressName);
                 if(addressOptional.isPresent()) {
                     List<Member> memberList = addressOptional.get().getMemberList();

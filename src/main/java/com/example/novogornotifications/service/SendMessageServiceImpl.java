@@ -44,21 +44,28 @@ public class SendMessageServiceImpl implements SendMessageService{
         if (messageText.contains("подключить")) {
             String[] request = messageText.split("подключить");
             if(request.length > 1) {
-                String addressName = request[1].trim();
+                String addressName = request[1];
                 result = disableService.getConnect(chatId, addressName);
             }
         } else if (messageText.contains("отключить")) {
             String[] request = messageText.split("отключить");
             if(request.length > 1) {
-                String addressName = request[1].trim();
+                String addressName = request[1];
                 result = disableService.getDisconnect(chatId, addressName);
             }
         } else if (messageText.contains("инфо")) {
             result = disableService.getInfoDisable(chatId);
         }
-        if(result == null) result = "С помощью этого бота можно получать информацию об отключении воды в г.Перми. " +
-                "Для этого есть возможные запросы:\n\nподключить улица дом\nотключить улица дом\nинфо\n\nнапример: подключить уссурийская 13\n" +
-                "Для правильного введения адреса рекомендуется скопировать название адреса из сервиса https://yandex.ru/maps/50/perm \nОповещение об отключении воды будет отправлено вам за день до отключения и в день отключения воды";
+        if(result == null) result = """
+                С помощью этого бота можно получать информацию об отключении воды в г.Перми. Для этого есть возможные запросы:
+
+                подключить улица дом
+                отключить улица дом
+                инфо
+
+                например: подключить уссурийская 13
+                Для правильного введения адреса рекомендуется скопировать адрес(название улицы и номер дома) из сервиса https://yandex.ru/maps/50/perm\s
+                Оповещение об отключении воды будет отправлено вам за день до отключения и в день отключения воды""";
         return result;
     }
 }

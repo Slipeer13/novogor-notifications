@@ -15,10 +15,13 @@ public class AddressServiceImpl implements AddressService{
 
     @Autowired
     private AddressRepository addressRepository;
+    @Autowired
+    private CheckAddressService checkAddressService;
 
     @Override
     @Transactional
     public Optional<Address> get(String address) {
+        address = checkAddressService.formatAddress(address);
         return Optional.ofNullable(addressRepository.findAddressByName(address));
     }
 
