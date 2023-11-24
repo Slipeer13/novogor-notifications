@@ -7,7 +7,6 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -16,7 +15,10 @@ import javax.mail.internet.MimeBodyPart;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 
 @Service
 public class ParsingExcelFileNotificationServiceImpl implements ParsingExcelFileNotificationService{
@@ -24,9 +26,6 @@ public class ParsingExcelFileNotificationServiceImpl implements ParsingExcelFile
     private String nameAddress;
     private String info;
     private LocalDate dateDisabling;
-
-    @Autowired
-    private CheckAddressService checkAddressService;
 
     @Override
     public List<Address> getAddresses(MimeBodyPart part) throws MessagingException, IOException {
