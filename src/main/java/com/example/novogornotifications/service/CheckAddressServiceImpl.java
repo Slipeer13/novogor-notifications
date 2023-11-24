@@ -8,7 +8,7 @@ public class CheckAddressServiceImpl implements CheckAddressService {
 
     @Override
     public String formatAddress(String address) {
-        return address.replaceAll("[^a-zA-Z0-9а-яА-Я ,./]", "")//убирает спец символы
+        return address.replaceAll("[^a-zA-Z0-9а-яА-Я ,./ё]", "")//убирает спец символы
                 .replaceAll("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)", " ")//вставляет пробел между словом и цифрами
                 .replaceAll("(?<=\\d)\\s(?=\\d)", "")//убирает пробел между цифрами
                 .replace("улица", " ")
