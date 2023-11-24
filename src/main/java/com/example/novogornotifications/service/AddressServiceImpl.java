@@ -21,15 +21,15 @@ public class AddressServiceImpl implements AddressService{
     @Override
     @Transactional
     public Optional<Address> get(String address) {
-        address = checkAddressService.formatAddress(address);
         return Optional.ofNullable(addressRepository.findAddressByName(address));
     }
 
     @Override
     @Transactional
     public Address update(Address address) {
-        Optional<Address> addressOptional = get(address.getName());
-        Address addressFromDB = addressOptional.orElseGet(() -> save(address.getName()));
+        String addressName = checkAddressService.formatAddress(address.getName());
+        Optional<Address> addressOptional = get(addressName);
+        Address addressFromDB = addressOptional.orElseGet(() -> save(addressName));
         List<Notification> notificationListFromDB = addressFromDB.getNotifications();
         List<Notification> notifications = address.getNotifications();
         notifications.forEach(n-> n.setAddress(addressFromDB));

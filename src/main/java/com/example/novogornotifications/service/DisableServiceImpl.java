@@ -21,6 +21,8 @@ public class DisableServiceImpl implements DisableService{
     private AddressService addressService;
     @Autowired
     private formatService formatService;
+    @Autowired
+    private CheckAddressService checkAddressService;
 
     @Override
     @Transactional
@@ -30,23 +32,22 @@ public class DisableServiceImpl implements DisableService{
         if (member == null) {
             member = memberService.save(chatId);
         }
-            Optional<Address> addressOptional = addressService.get(addressName);
-            Address address;
-            if(addressOptional.isEmpty()) {
-                address = addressService.save(addressName);
-            } else {
-                address = addressOptional.get();
-            }
-            List<Member> memberList = address.getMemberList();
-            if(memberList.contains(member)) {
-                result = "вы уже подключены к адресу: " + addressName;
-            } else {
-                memberList.add(member);
-                addressService.save(address);
-                result = "вы подключены к адресу: " + addressName;
-            }
-
-
+        addressName = checkAddressService.formatAddress(addressName);
+        Optional<Address> addressOptional = addressService.get(addressName);
+        Address address;
+        if(addressOptional.isEmpty()) {
+            address = addressService.save(addressName);
+        } else {
+            address = addressOptional.get();
+        }
+        List<Member> memberList = address.getMemberList();
+        if(memberList.contains(member)) {
+            result = "вы уже подключены к адресу: " + addressName;
+        } else {
+            memberList.add(member);
+            addressService.save(address);
+            result = "вы подключены к адресу: " + addressName;
+        }
         return result;
     }
 
@@ -56,19 +57,19 @@ public class DisableServiceImpl implements DisableService{
         Member member = memberService.getMember(chatId).orElse(null);
         String result;
         if (member != null) {
-                Optional<Address> addressOptional = addressService.get(addressName);
-                if(addressOptional.isPresent()) {
-                    List<Member> memberList = addressOptional.get().getMemberList();
-                    if(memberList.contains(member)) {
-                        memberList.remove(member);
-                        result = "вы отключены от адреса: " + addressName;
-                    } else {
-                        result = "вы не подключены к такому адресу";
-                    }
+            addressName = checkAddressService.formatAddress(addressName);
+            Optional<Address> addressOptional = addressService.get(addressName);
+            if(addressOptional.isPresent()) {
+                List<Member> memberList = addressOptional.get().getMemberList();
+                if(memberList.contains(member)) {
+                    memberList.remove(member);
+                    result = "вы отключены от адреса: " + addressName;
                 } else {
-                    result = "такого адреса нет в бд";
+                    result = "вы не подключены к такому адресу";
                 }
-
+            } else {
+                result = "такого адреса нет в бд";
+            }
         } else {
             result = "вы не подписаны на отключения";
         }
