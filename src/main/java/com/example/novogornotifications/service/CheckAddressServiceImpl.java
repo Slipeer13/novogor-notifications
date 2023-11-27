@@ -12,6 +12,7 @@ public class CheckAddressServiceImpl implements CheckAddressService {
                 .replaceAll("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)", " ")//вставляет пробел между словом и цифрами
                 .replaceAll("(?<=\\d)\\s(?=\\d)", "")//убирает пробел между цифрами
                 .replace("улица", " ")
+                .replace("улицу", " ")
                 .replace(" ул ", " ")
                 .replace(" ул.", " ")
                 .replace(" дом ", " ")
